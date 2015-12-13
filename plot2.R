@@ -1,0 +1,10 @@
+library(data.table)
+hpc <- fread("household_power_consumption.txt", na.strings = "?",data.table=FALSE)
+hpc <- subset(hpc, Date == "1/2/2007"|Date == "2/2/2007")
+hpc$Time <- strptime(paste0(hpc$Date,hpc$Time),"%d/%m/%Y %H:%M:%S")
+hpc$Date <- as.Date(hpc$Date,"%d/%m/%Y")
+
+with(hpc, plot(Time,Global_active_power, ylab = "Global Active Power (kilowatts)", xlab="", type="n"))
+with(hpc, lines(Time,Global_active_power))
+dev.copy(png, file = "plot2.png", width = 480, height = 480)
+dev.off()
